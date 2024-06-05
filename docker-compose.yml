@@ -1,0 +1,43 @@
+version: '3.3'
+services:
+  mqtt:
+    container_name: mosquitto
+    image: eclipse-mosquitto:2.0
+    restart: unless-stopped
+    volumes:
+      - "./mosquitto-data:/mosquitto"
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    command: "mosquitto -c /mosquitto-no-auth.conf"
+    networks:
+      - zigbee2mqtt_default
+
+  zigbee2mqtt:
+    container_name: zigbee2mqtt
+    restart: unless-stopped
+    image: koenkk/zigbee2mqtt
+    volumes:
+      - ./zigbee2mqtt-data:/app/data
+      - /run/udev:/run/udev:ro
+    ports:
+      - "5721:8080"
+    environment:
+      - TZ=Asia/Shanghai
+    devices:
+      - /dev/ttyUSB0:/dev/ttyACM0
+    networks:
+      - zigbee2mqtt_default
+
+  middleware:
+    container_name: middleware-phpswoole
+    build: .
+    restart: unless-stopped
+    networks:
+      - zigbee2mqtt_default
+    volumes:
+      - ./php-middleware:/opt/www
+    command: php mqtt_sub_zigbee.php > /dev/null 2>&1 &
+networks:
+  zigbee2mqtt_default:
+    external: true

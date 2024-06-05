@@ -1,0 +1,10 @@
+{
+    "0x70ac08fffe65a18c": {
+        "learned_ir_code": "CRoSGhIbAlcGGwJAAUAHQAPAAeATCwRXBlMCGyABAVcGgANAAcAL4AcHQAFAE+APAUAbQANAAYAHgFvgBwGAGwEbAkAH4AMDARoSQAEBGwJAE0ABQAdAA4ABAVMC4AELARsC4AcLgA+AI4ALARsCQAfgCwNAAUAX4A8BQBtAA0ABwAfgCwHAG0AH4AMDARoSQAEBGwLAE0ABQAtAAeALB8ATQAFAC0AD4AsBAlMCG+AEAeAHD+AvAUBvwAMLGwIbAlcGGwJXBhsC",
+        "linkquality": 81
+    },
+    "0x00158d607fe00e5a": {
+        "detection_period": null,
+        "linkquality": 99
+    }
+}
