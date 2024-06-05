@@ -37,14 +37,11 @@ services:
       - zigbee2mqtt_default
     volumes:
       - ./php-middleware:/opt/www
-    command: php mqtt_sub_zigbee.php > /dev/null 2>&1 &
+    command: >
+      sh -c "php mqtt_sub_zigbee.php > /dev/null 2>&1 & \
+      && echo '0 18 * * * /opt/www/src/Crontab/turn_off_aircon.sh' | crontab - \
+      && crond -f"
 
-  scheduled_task:
-    image: alpine
-    volumes:
-      - ./php-middleware/src/Crontab/turn_off_aircon.sh:/turn_off_aircon.sh
-    command: sh -c "echo '*/1 * * * * * /turn_off_aircon.sh' | crontab - && crond -f"
-#    command: sh -c "echo '0 18 * * * /turn_off_aircon.sh' | crontab - && crond -f"
 
 networks:
   zigbee2mqtt_default:
