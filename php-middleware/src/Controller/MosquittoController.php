@@ -47,7 +47,7 @@ class MosquittoController {
             'topic' => $this->topic_zigbee . "/0x70ac08fffe65a18c/set",
             'payload' => json_encode(['ir_code_to_send' => 'DQMSAxIjAj4GIwIjAlgCQAdAAwQjAlgCIyABgAtAAQFYAuAHC8AP4AEHgCMBPgaAA0ABwAtAB4ABAlgCI6ABgBOAD0ALwAOAAYAX4AUBgBOAJwBYoAeADwEDEkABASMCQA9AAUAHQAOAAYArwAHgARcBIwJAC0ADQAHgAwdAC8ADQAGAC+AFR8ABAz4GIwLAAUALwAPgFQGAS8ArBz4GIwI+BiMC']),
           ];
-          $ac = '检测到空调触发<font color=\"info\">关闭</font>事件。';
+          $ac = "检测到空调触发<font color=\"info\">关闭</font>事件。";
           break;
         case "single_right":
         case "double_right":
@@ -57,7 +57,7 @@ class MosquittoController {
             'topic' => $this->topic_zigbee . "/0x70ac08fffe65a18c/set",
             'payload' => json_encode(['ir_code_to_send' => 'CRoSGhIbAlcGGwJAAUAHQAPAAeATCwRXBlMCGyABAVcGgANAAcAL4AcHQAFAE+APAUAbQANAAYAHgFvgBwGAGwEbAkAH4AMDARoSQAEBGwJAE0ABQAdAA4ABAVMC4AELARsC4AcLgA+AI4ALARsCQAfgCwNAAUAX4A8BQBtAA0ABwAfgCwHAG0AH4AMDARoSQAEBGwLAE0ABQAtAAeALB8ATQAFAC0AD4AsBAlMCG+AEAeAHD+AvAUBvwAMLGwIbAlcGGwJXBhsC']),
           ];
-          $ac = '检测到空调触发<font color=\"warning\">开启</font>事件';
+          $ac = "检测到空调触发<font color=\"warning\">开启</font>事件";
           break;
       }
 
@@ -65,7 +65,7 @@ class MosquittoController {
       $currentTime = date("Y-m-d H:i:s");
       foreach ($push_data as $item) {
         // 执行操作
-        $this->client->publish($item['topic'], $item['payload'], 1);
+//        $this->client->publish($item['topic'], $item['payload'], 1);
 
         // 日志内容
         $logContent = $currentTime .
