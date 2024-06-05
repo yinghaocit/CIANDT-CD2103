@@ -47,7 +47,7 @@ class MosquittoController {
             'topic' => $this->topic_zigbee . "/0x70ac08fffe65a18c/set",
             'payload' => json_encode(['ir_code_to_send' => 'DQMSAxIjAj4GIwIjAlgCQAdAAwQjAlgCIyABgAtAAQFYAuAHC8AP4AEHgCMBPgaAA0ABwAtAB4ABAlgCI6ABgBOAD0ALwAOAAYAX4AUBgBOAJwBYoAeADwEDEkABASMCQA9AAUAHQAOAAYArwAHgARcBIwJAC0ADQAHgAwdAC8ADQAGAC+AFR8ABAz4GIwLAAUALwAPgFQGAS8ArBz4GIwI+BiMC']),
           ];
-          $ac = '检测到空调触发【关闭】事件。';
+          $ac = '检测到空调触发<font color=\"info\">关闭</font>事件。';
           break;
         case "single_right":
         case "double_right":
@@ -57,7 +57,7 @@ class MosquittoController {
             'topic' => $this->topic_zigbee . "/0x70ac08fffe65a18c/set",
             'payload' => json_encode(['ir_code_to_send' => 'CRoSGhIbAlcGGwJAAUAHQAPAAeATCwRXBlMCGyABAVcGgANAAcAL4AcHQAFAE+APAUAbQANAAYAHgFvgBwGAGwEbAkAH4AMDARoSQAEBGwJAE0ABQAdAA4ABAVMC4AELARsC4AcLgA+AI4ALARsCQAfgCwNAAUAX4A8BQBtAA0ABwAfgCwHAG0AH4AMDARoSQAEBGwLAE0ABQAtAAeALB8ATQAFAC0AD4AsBAlMCG+AEAeAHD+AvAUBvwAMLGwIbAlcGGwJXBhsC']),
           ];
-          $ac = '检测到空调触发【开启】事件';
+          $ac = '检测到空调触发<font color=\"warning\">开启</font>事件';
           break;
       }
 
@@ -74,14 +74,14 @@ class MosquittoController {
           " [Payload]: " . json_encode($item['payload']) . PHP_EOL;
 
         if (!empty($ac)) {
-          if (file_exists(__DIR__ . '/config/wechatbot.php')) {
-            $wechatbot_config = require __DIR__ . "/config/wechatbot.php";
+          if (file_exists(BASE_PATH . '/config/wechatbot.php')) {
+            $wechatbot_config = require BASE_PATH . "/config/wechatbot.php";
           }
           if (!empty($wechatbot_config)) {
             $wechatData = [
               'msgtype' => 'text',
               'text' => [
-                'content' => $$ac,
+                'content' => $ac,
                 'mentioned_list' => ['@all'],
               ],
             ];
@@ -121,7 +121,7 @@ class MosquittoController {
     else {
       $WeChat = $result;
     }
-    error_log($WeChat, 3, "log/wechatbot/" . date("YmdH") . ".log");
+    error_log($WeChat . PHP_EOL, 3, "log/wechatbot/" . date("YmdH") . ".log");
     curl_close($ch);
   }
 
