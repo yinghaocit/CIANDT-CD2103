@@ -28,10 +28,9 @@ jobs:
 
       - name: Check Docker status and start/restart container
         run: |
-          if docker ps | grep "middleware-phpswoole"; then
-            docker restart your_container_name
+          if [ "$(docker inspect -f '{{.State.Running}}' middleware-phpswoole 2>/dev/null)" == "true" ]; then
+            docker restart middleware-phpswoole
           else
-            cd $DESTINATION_PATH
             docker-compose up -d
           fi
 
