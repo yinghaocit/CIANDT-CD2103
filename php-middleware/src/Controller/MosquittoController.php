@@ -33,7 +33,7 @@ class MosquittoController {
     // Get topic.
     $topic = $data->topic;
     $payload = $data->payload;
-
+    var_dump($data);
     if ($topic == "zigbee2mqtt/0x00158d607fe00e5a") {
       $payload = json_decode($payload, TRUE);
       $action = $payload['action'];
