@@ -1,5 +1,4 @@
 name: IOT deploy actions
-run-name: ${{ github.actor }} publish this version.
 on:
   push:
     branches:
@@ -15,9 +14,16 @@ jobs:
   build:
     needs: setup
     runs-on: self-hosted
+    env:
+      DESTINATION_PATH: /home/pi/CIANDT_CD2103/code-files/
     steps:
       - name: Copy files to destination
-        run: cp -R ${{ github.workspace }}/* /home/pi/CIANDT_CD2103/code-files/
+        run: cp -R ${{ github.workspace }}/* $DESTINATION_PATH
+
+      - name: Start the docker container
+        run: |
+          cd $DESTINATION_PATH
+          docker-compose up -d
 
       - name: Display job status
         run: echo "This job's status is ${{ job.status }}."
