@@ -38,11 +38,10 @@ services:
     volumes:
       - ./php-middleware:/opt/www
     command: >
-      sh -c "php mqtt_sub_zigbee.php > /dev/null 2>&1 & \
-      && echo '0 18 * * * /opt/www/src/Crontab/turn_off_aircon.sh' | crontab - \
-      && crond -f"
+      php mqtt_sub_zigbee.php > /dev/null 2>&1 & \
+      && echo '0 */1 * * * /opt/www/src/Crontab/turn_off_aircon.sh' | crontab - 
 
-
+    command: php mqtt_sub_zigbee.php > /dev/null 2>&1 &
 networks:
   zigbee2mqtt_default:
     external: true
