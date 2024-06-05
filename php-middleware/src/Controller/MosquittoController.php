@@ -47,7 +47,7 @@ class MosquittoController {
             'topic' => $this->topic_zigbee . "/0x70ac08fffe65a18c/set",
             'payload' => json_encode(['ir_code_to_send' => 'DQMSAxIjAj4GIwIjAlgCQAdAAwQjAlgCIyABgAtAAQFYAuAHC8AP4AEHgCMBPgaAA0ABwAtAB4ABAlgCI6ABgBOAD0ALwAOAAYAX4AUBgBOAJwBYoAeADwEDEkABASMCQA9AAUAHQAOAAYArwAHgARcBIwJAC0ADQAHgAwdAC8ADQAGAC+AFR8ABAz4GIwLAAUALwAPgFQGAS8ArBz4GIwI+BiMC']),
           ];
-          $ac = "检测到空调触发了<font color='info'>关闭</font>操作。";
+          $ac = "检测到空调触发了[关闭]操作。";
           break;
         case "single_right":
         case "double_right":
@@ -57,7 +57,7 @@ class MosquittoController {
             'topic' => $this->topic_zigbee . "/0x70ac08fffe65a18c/set",
             'payload' => json_encode(['ir_code_to_send' => 'CRoSGhIbAlcGGwJAAUAHQAPAAeATCwRXBlMCGyABAVcGgANAAcAL4AcHQAFAE+APAUAbQANAAYAHgFvgBwGAGwEbAkAH4AMDARoSQAEBGwJAE0ABQAdAA4ABAVMC4AELARsC4AcLgA+AI4ALARsCQAfgCwNAAUAX4A8BQBtAA0ABwAfgCwHAG0AH4AMDARoSQAEBGwLAE0ABQAtAAeALB8ATQAFAC0AD4AsBAlMCG+AEAeAHD+AvAUBvwAMLGwIbAlcGGwJXBhsC']),
           ];
-          $ac = "检测到空调触发了<font color='warning'>开启</font>操作";
+          $ac = "检测到空调触发了[开启]操作";
           break;
       }
 
@@ -79,28 +79,28 @@ class MosquittoController {
           }
           if (!empty($wechatbot_config)) {
             $wechatData = [
-              'msgtype' => 'markdown',
-              'markdown' => [
+              'msgtype' => 'text',
+              'text' => [
                 'content' => $ac,
                 'mentioned_list' => ['@all'],
               ],
             ];
             // 下班前（18点），不提醒所有人
-            //          if (date("H") < 18) {
-            unset($wechatData['text']['mentioned_list']);
-            //          }
+            if (date("H") < 18) {
+              //              unset($wechatData['text']['mentioned_list']);
+            }
 
             $url = $wechatbot_config['wechat_bot_endpoint'] . "?key=" . $wechatbot_config['wechat_bot_acc_key'];
             $this->curlPostRequest($url, $wechatData);
           }
         }
-        $operationlog_path = BASE_PATH . '/log/operation';
+        $operationlog_path = BASE_PATH . '/log/operation/';
         // 如果日志目录不存在，创建
         if (!is_dir($operationlog_path)) {
           mkdir($operationlog_path);
         }
         // 操作日志
-        error_log($logContent, 3, BASE_PATH . "log/operation/" . date("YmdH") . ".log");
+        error_log($logContent, 3, $operationlog_path . date("YmdH") . ".log");
       }
     }
   }
@@ -126,11 +126,11 @@ class MosquittoController {
     else {
       $WeChat = $result;
     }
-    $wechatbotlog_path = BASE_PATH . '/log/wechatbot';
+    $wechatbotlog_path = BASE_PATH . '/log/wechatbot/';
     if (!is_dir($wechatbotlog_path)) {
       mkdir($wechatbotlog_path);
     }
-    error_log($WeChat . PHP_EOL, 3, BASE_PATH . "log/wechatbot/" . date("YmdH") . ".log");
+    error_log($WeChat . PHP_EOL, 3, $wechatbotlog_path . date("YmdH") . ".log");
     curl_close($ch);
   }
 
