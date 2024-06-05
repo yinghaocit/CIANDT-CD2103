@@ -32,7 +32,6 @@ jobs:
             docker restart middleware-phpswoole
           else
             cd $DESTINATION_PATH
-            docker network create zigbee2mqtt_default
             docker-compose up -d
           fi
 
