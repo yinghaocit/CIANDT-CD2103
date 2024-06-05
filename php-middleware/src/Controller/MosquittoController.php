@@ -4,10 +4,6 @@ namespace zigbee2mqtt\src\controller;
 
 defined('OPEN_OFFICE_LIGHT_LIMT') || define('OPEN_OFFICE_LIGHT_LIMT', 9);
 defined('CLOSE_MEETING_LIGHT_WAIT') || define('CLOSE_MEETING_LIGHT_WAIT', 10);
-// if require config file.
-if (file_exists(__DIR__ . '/config/weichatbot.php')) {
-  require_once __DIR__ . "/config/weichatbot.php";
-}
 
 use \Mosquitto\Client;
 use zigbee2mqtt\src\device\DeviceBase;
@@ -78,19 +74,25 @@ class MosquittoController {
           " [Payload]: " . json_encode($item['payload']) . PHP_EOL;
 
         if (!empty($ac)) {
-          $wechatData = [
-            'msgtype' => 'text',
-            'text' => [
-              'content' => $$ac,
-              'mentioned_list' => ['@all'],
-            ],
-          ];
-          // 下班前（18点），不提醒所有人
-//          if (date("H") < 18) {
+          if (file_exists(__DIR__ . '/config/wechatbot.php')) {
+            $wechatbot_config = require __DIR__ . "/config/wechatbot.php";
+          }
+          if (!empty($wechatbot_config)) {
+            $wechatData = [
+              'msgtype' => 'text',
+              'text' => [
+                'content' => $$ac,
+                'mentioned_list' => ['@all'],
+              ],
+            ];
+            // 下班前（18点），不提醒所有人
+            //          if (date("H") < 18) {
             unset($wechatData['text']['mentioned_list']);
-//          }
+            //          }
 
-          $this->curlPostRequest($wechatData);
+            $url = $wechatbot_config['wechat_bot_endpoint'] . "?key=" . $wechatbot_config['wechat_bot_acc_key'];
+            $this->curlPostRequest($url, $wechatData);
+          }
         }
         // 操作日志
         error_log($logContent, 3, "log/operation/" . date("YmdH") . ".log");
@@ -98,8 +100,7 @@ class MosquittoController {
     }
   }
 
-  public function curlPostRequest($data) {
-    $url = WECHAT_BOT_URL . "?" . WECHAT_BOT_KEY_ACC;
+  public function curlPostRequest($url, $data) {
     $payload = json_encode($data);
 
     $ch = curl_init($url);

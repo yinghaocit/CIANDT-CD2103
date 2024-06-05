@@ -10,7 +10,7 @@
 //        "mentioned_list":["@all"],
 //        }
 //   }'
-
-const WECHAT_BOT_URL = 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send';
-// AC controller key
-const WECHAT_BOT_KEY_ACC = '92e83753-ba9f-41e8-b146-75c37b17f8ef';
+return [
+  'wechat_bot_endpoint' => 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send',
+  'wechat_bot_acc_key' => '92e83753-ba9f-41e8-b146-75c37b17f8ef',
+];
