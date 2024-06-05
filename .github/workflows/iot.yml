@@ -1,15 +1,23 @@
-name: Deploy IOT
-
+name: IOT deploy actions
+run-name: ${{ github.actor }} publish this version.
 on:
   push:
-    branches: ["master"]
+    branches:
+      - master
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
+  setup:
+    runs-on: self-hosted
     steps:
-      - name: Checkout
+      - name: Check out repository code
         uses: actions/checkout@v4
-        
-      - name: Copy Files
-        run: cp -r ${{ github.workspace }}/* /home/pi/CIANDT_CD2103/code-files/
+
+  build:
+    needs: setup
+    runs-on: self-hosted
+    steps:
+      - name: Copy files to destination
+        run: cp -R ${{ github.workspace }}/* /home/pi/CIANDT_CD2103/code-files/
+
+      - name: Display job status
+        run: echo "This job's status is ${{ job.status }}."
