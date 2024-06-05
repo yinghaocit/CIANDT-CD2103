@@ -18,9 +18,6 @@ jobs:
       DESTINATION_PATH: /home/pi/CIANDT_CD2103/code-files/
     steps:
       - name: Copy files to destination
-        run: whoami
-
-      - name: Copy files to destination
         run: cp -R ${{ github.workspace }}/* $DESTINATION_PATH
 
       - name: Start the docker container
