@@ -31,6 +31,7 @@ jobs:
           if [ "$(docker inspect -f '{{.State.Running}}' middleware-phpswoole 2>/dev/null)" == "true" ]; then
             docker restart middleware-phpswoole
           else
+            cd $DESTINATION_PATH
             docker-compose up -d
           fi
 
