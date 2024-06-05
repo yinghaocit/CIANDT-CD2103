@@ -3,7 +3,7 @@
 $config = [
   'user' => 'admin',
   'password' => 'o8Uslg',
-  'host' => 'citcdoffice-2102_mqtt_1',
+  'host' => 'mosquitto',
   'port' => 1883,
   'keep_live' => 60,
 ];
