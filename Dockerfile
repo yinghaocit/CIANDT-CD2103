@@ -12,7 +12,7 @@ RUN ln -sf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime \
   && apt-get clean \
   && apt-get update -y \
   && apt-get upgrade -y \
-  && apt-get cron -y \
+  && apt-get install cron -y \
   && apt-get install libmosquitto-dev -y \
   && pecl install Mosquitto-alpha \
   && docker-php-ext-enable mosquitto
