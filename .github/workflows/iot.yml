@@ -28,7 +28,7 @@ jobs:
 
       - name: Check Docker status and start/restart container
         run: |
-          if docker ps | grep -q "your_container_name"; then
+          if docker ps | grep "middleware-phpswoole"; then
             docker restart your_container_name
           else
             cd $DESTINATION_PATH
