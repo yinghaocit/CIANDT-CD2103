@@ -55,7 +55,7 @@ class MosquittoController {
           $push_data[] = [
             'action' => $action,
             'topic' => $this->topic_zigbee . "/0x70ac08fffe65a18c/set",
-            'payload' => json_encode(['ir_code_to_send' => 'CRoSGhIbAlcGGwJAAUAHQAPAAeATCwRXBlMCGyABAVcGgANAAcAL4AcHQAFAE+APAUAbQANAAYAHgFvgBwGAGwEbAkAH4AMDARoSQAEBGwJAE0ABQAdAA4ABAVMC4AELARsC4AcLgA+AI4ALARsCQAfgCwNAAUAX4A8BQBtAA0ABwAfgCwHAG0AH4AMDARoSQAEBGwLAE0ABQAtAAeALB8ATQAFAC0AD4AsBAlMCG+AEAeAHD+AvAUBvwAMLGwIbAlcGGwJXBhsC']),
+            'payload' => json_encode(['ir_code_to_send' => 'EYkSiRLuAYkGRgLuAUYCiQbuAUADAUYCgAOAC0AB4AMLAJlgF4AbQAcDRgKJBuADB0ALwAOAGwFGAoADA7ACmQHgCwvgAycDiQbuAYAjQAEDmQGwAsAPAe4BwBtABwWJBkYCiQZAByADCxImCdoAngDaAJkB7iABAYkSIAMgFwNGAu4BQAdAA0ALQANACwKwApkgAwHuAUALQBMDRgKZAUALA4kGmQHAFwGJBkADAJmgBwFGAoADwA8D7gFGAuAFAwOwApkBQBMCsAJHIAME7gGJBpkgA0ARCu4BiQbuAbACmQFGYAMH7gHFA9oAsALAJwXuAbAC7gFAB']),
           ];
           $ac = "检测到空调触发了[开启]操作";
           break;
@@ -65,7 +65,7 @@ class MosquittoController {
       $currentTime = date("Y-m-d H:i:s");
       foreach ($push_data as $item) {
         // 执行操作
-        //        $this->client->publish($item['topic'], $item['payload'], 1);
+        $this->client->publish($item['topic'], $item['payload'], 1);
 
         // 日志内容
         $logContent = $currentTime .
